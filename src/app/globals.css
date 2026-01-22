@@ -1,0 +1,14 @@
+﻿@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply min-h-dvh bg-zinc-50 text-zinc-900;
+}
+
+/* Small utility for nicer focus rings */
+:focus-visible {
+  outline: none;
+}

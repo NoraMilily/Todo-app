@@ -1,0 +1,104 @@
+{
+  "Auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Welcome back.",
+      "noAccount": "New here?",
+      "createAccount": "Create an account"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Register with your email and password.",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "fields": {
+      "email": "Email",
+      "username": "Username",
+      "displayName": "Display name",
+      "emailOrUsername": "Email or Username",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "loginForm": {
+      "registeredSuccess": "Account created. Please log in.",
+      "invalidCredentials": "Invalid email or password.",
+      "submitting": "Signing in...",
+      "submit": "Sign in"
+    },
+    "registerForm": {
+      "submitting": "Creating account...",
+      "submit": "Create account"
+    },
+    "errors": {
+      "emailExists": "An account with that email already exists.",
+      "usernameExists": "That username is already taken.",
+      "usernameMin": "Username must be at least 3 characters",
+      "displayNameRequired": "Display name is required",
+      "passwordMin": "Password must be at least 6 characters",
+      "passwordsNoMatch": "Passwords do not match"
+    }
+  },
+  "Todos": {
+    "title": "Your Todos",
+    "remaining": "{count} remaining",
+    "greeting": "Welcome, {name}!",
+    "logout": "Log out",
+    "toggleCompleted": "Mark as completed",
+    "addPlaceholder": "Add a new todo...",
+    "add": "Add",
+    "empty": "No todos yet. Add your first one above.",
+    "emptyActive": "No active tasks.",
+    "emptyCompleted": "No completed tasks.",
+    "created": "Created {date}",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "statistics": {
+      "active": "Active tasks",
+      "completed": "Completed tasks",
+      "total": "Total tasks"
+    },
+    "errors": {
+      "updateFailed": "Failed to update todo.",
+      "deleteFailed": "Failed to delete todo."
+    }
+  },
+  "Nav": {
+    "appName": "TodoApp",
+    "editProfile": "Edit profile"
+  },
+  "Profile": {
+    "title": "Profile",
+    "subtitle": "Update how your name is shown in the app.",
+    "saved": "Saved.",
+    "fields": {
+      "displayName": "Display name",
+      "avatarUrl": "Or paste image URL"
+    },
+    "form": {
+      "save": "Save",
+      "saving": "Saving...",
+      "back": "Back",
+      "edit": "Edit",
+      "logout": "Log out"
+    },
+    "errors": {
+      "displayNameRequired": "Display name is required"
+    }
+  },
+  "ProfileExtra": {
+    "avatarHelp": "Use a square image URL for best results.",
+    "uploadFromComputer": "Upload from computer",
+    "orEnterImageUrl": "Or paste image URL",
+    "squareImageHelp": "Use a square image for best results.",
+    "errors": {
+      "invalidFileType": "Please upload an image file.",
+      "fileTooLarge": "File size must be less than 2MB.",
+      "invalidUrl": "Please enter a valid image URL.",
+      "uploadFailed": "Failed to upload image. Please try again."
+    }
+  }
+}
+

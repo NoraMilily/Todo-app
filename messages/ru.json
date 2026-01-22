@@ -1,0 +1,104 @@
+{
+  "Auth": {
+    "login": {
+      "title": "Вход",
+      "subtitle": "С возвращением.",
+      "noAccount": "Впервые здесь?",
+      "createAccount": "Создать аккаунт"
+    },
+    "register": {
+      "title": "Создать аккаунт",
+      "subtitle": "Зарегистрируйтесь с помощью email и пароля.",
+      "haveAccount": "Уже есть аккаунт?",
+      "signIn": "Войти"
+    },
+    "fields": {
+      "email": "Email",
+      "username": "Имя пользователя",
+      "displayName": "Отображаемое имя",
+      "emailOrUsername": "Email или имя пользователя",
+      "password": "Пароль",
+      "confirmPassword": "Подтвердите пароль"
+    },
+    "loginForm": {
+      "registeredSuccess": "Аккаунт создан. Пожалуйста, войдите.",
+      "invalidCredentials": "Неверный email или пароль.",
+      "submitting": "Входим...",
+      "submit": "Войти"
+    },
+    "registerForm": {
+      "submitting": "Создаём аккаунт...",
+      "submit": "Создать аккаунт"
+    },
+    "errors": {
+      "emailExists": "Аккаунт с таким email уже существует.",
+      "usernameExists": "Это имя пользователя уже занято.",
+      "usernameMin": "Имя пользователя должно быть не короче 3 символов",
+      "displayNameRequired": "Отображаемое имя обязательно",
+      "passwordMin": "Пароль должен быть не короче 6 символов",
+      "passwordsNoMatch": "Пароли не совпадают"
+    }
+  },
+  "Todos": {
+    "title": "Мои задачи",
+    "remaining": "Осталось: {count}",
+    "greeting": "Вы вошли как {name}",
+    "logout": "Выйти",
+    "toggleCompleted": "Отметить как выполнено",
+    "addPlaceholder": "Добавить новую задачу...",
+    "add": "Добавить",
+    "empty": "Пока нет задач. Добавьте первую выше.",
+    "emptyActive": "Нет активных задач.",
+    "emptyCompleted": "Нет выполненных задач.",
+    "created": "Создано: {date}",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "statistics": {
+      "active": "Активные задачи",
+      "completed": "Выполненные задачи",
+      "total": "Всего задач"
+    },
+    "errors": {
+      "updateFailed": "Не удалось обновить задачу.",
+      "deleteFailed": "Не удалось удалить задачу."
+    }
+  },
+  "Nav": {
+    "appName": "Список дел",
+    "editProfile": "Редактировать профиль"
+  },
+  "Profile": {
+    "title": "Профиль",
+    "subtitle": "Измените имя, которое отображается в приложении.",
+    "saved": "Сохранено.",
+    "fields": {
+      "displayName": "Отображаемое имя",
+      "avatarUrl": "Или вставьте URL изображения"
+    },
+    "form": {
+      "save": "Сохранить",
+      "saving": "Сохраняем...",
+      "back": "Назад",
+      "edit": "Редактировать",
+      "logout": "Выйти"
+    },
+    "errors": {
+      "displayNameRequired": "Отображаемое имя обязательно"
+    }
+  },
+  "ProfileExtra": {
+    "avatarHelp": "Используйте квадратное изображение для лучшего результата.",
+    "uploadFromComputer": "Загрузить с компьютера",
+    "orEnterImageUrl": "Или вставьте URL изображения",
+    "squareImageHelp": "Используйте квадратное изображение для лучшего результата.",
+    "errors": {
+      "invalidFileType": "Пожалуйста, загрузите файл изображения.",
+      "fileTooLarge": "Размер файла должен быть менее 2МБ.",
+      "invalidUrl": "Пожалуйста, введите действительный URL изображения.",
+      "uploadFailed": "Не удалось загрузить изображение. Пожалуйста, попробуйте снова."
+    }
+  }
+}
+
