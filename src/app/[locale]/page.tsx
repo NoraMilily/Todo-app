@@ -18,21 +18,41 @@ export default async function HomePage({
     redirect(`/${locale}/auth/login`);
   }
 
-  const todos = await prisma.todo.findMany({
+  const todosRaw = await prisma.todo.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" },
   });
+
+  // Type assertion needed until Prisma Client is regenerated with new schema
+  const todos = todosRaw as unknown as Array<{
+    id: string;
+    text: string;
+    completed: boolean;
+    dueDate?: Date | null;
+    priority?: "IMPORTANT" | "MEDIUM" | "EASY" | null;
+    createdAt: Date;
+  }>;
 
   return (
     <TodoApp
       displayName={session.user?.displayName ?? session.user?.username ?? session.user?.email ?? ""}
       avatarUrl={session.user?.avatarUrl ?? null}
-      todos={todos.map((t) => ({
-        id: t.id,
-        text: t.text,
-        completed: t.completed,
-        createdAt: t.createdAt.toISOString(),
-      }))}
+      todos={todos.map((t) => {
+        // Handle old records that may not have dueDate or priority
+        const dueDate = t.dueDate
+          ? t.dueDate
+          : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // Default to 7 days from now
+        const priority = t.priority ?? "MEDIUM";
+
+        return {
+          id: t.id,
+          text: t.text,
+          completed: t.completed,
+          dueDate: dueDate.toISOString(),
+          priority: priority,
+          createdAt: t.createdAt.toISOString(),
+        };
+      })}
     />
   );
 }

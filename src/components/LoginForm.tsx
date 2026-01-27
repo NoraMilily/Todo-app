@@ -32,6 +32,11 @@ export function LoginForm() {
             {t("loginForm.registeredSuccess")}
           </p>
         ) : null}
+        {searchParams.get("passwordReset") ? (
+          <p className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">
+            {t("loginForm.passwordResetSuccess")}
+          </p>
+        ) : null}
 
         <form
           className="space-y-4"

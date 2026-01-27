@@ -37,10 +37,6 @@ export function ProfileForm({
   const router = useRouter();
   const [state, formAction] = useActionState(updateDisplayNameAction, initialState);
 
-  // Debug: log state changes
-  useEffect(() => {
-    console.log("[CLIENT] ProfileForm state changed:", state);
-  }, [state]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -61,11 +57,9 @@ export function ProfileForm({
   // Use useCallback to memoize the update function to prevent unnecessary re-renders
   const handleSuccessfulUpdate = useCallback(async () => {
     if (!update) {
-      console.log("[CLIENT] No update function available");
       return;
     }
 
-    console.log("[CLIENT] Starting successful update process...");
     try {
       // Get updated data from server action response
       // In NextAuth beta, update() might not trigger JWT callback properly
@@ -77,41 +71,24 @@ export function ProfileForm({
         },
       } : null;
 
-      console.log("[CLIENT] Calling update() with data:", updatedData);
-      console.log("[CLIENT] Current state:", state);
-
       // Call update() with data from server action response
       // This should update session directly without needing JWT callback
-      const updatedSession = await update(updatedData || {});
-      console.log("[CLIENT] Session updated, new session data:", updatedSession);
-
-      // Check if session was actually updated with new data
-      if (updatedSession?.user) {
-        console.log("[CLIENT] Updated session user:", updatedSession.user);
-        console.log("[CLIENT] Expected displayName:", state.ok && "displayName" in state ? state.displayName : "N/A");
-        console.log("[CLIENT] Actual session displayName:", updatedSession.user.displayName);
-      } else {
-        console.warn("[CLIENT] Session update returned no user data!");
-      }
+      await update(updatedData || {});
 
       // Wait a bit to ensure session is fully updated
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      console.log("[CLIENT] Redirecting to profile...");
       // Redirect to profile view after successful update
       router.push("/profile");
     } catch (error) {
-      console.error("[CLIENT] Failed to update session:", error);
+      console.error("[PROFILE] Failed to update session:", error instanceof Error ? error.message : String(error));
     }
   }, [update, router, state]);
 
   useEffect(() => {
-    console.log("[CLIENT] useEffect triggered, state.ok:", state.ok, "hasProcessedSuccess:", hasProcessedSuccess.current);
-
     // Only process success once per state.ok change to prevent infinite loops
     // Check if state.ok is true (which means it's the success type with displayName/avatarUrl)
     if (state.ok && !hasProcessedSuccess.current) {
-      console.log("[CLIENT] Processing successful update...");
       hasProcessedSuccess.current = true;
       // Reset preview and file selection after successful save
       setPreviewUrl(null);
@@ -207,16 +184,6 @@ export function ProfileForm({
     <form
       action={formAction}
       className="mt-4 space-y-4"
-      onSubmit={(e) => {
-        console.log("[CLIENT] Form onSubmit triggered");
-        const formData = new FormData(e.currentTarget);
-        console.log("[CLIENT] FormData contents:", {
-          displayName: formData.get("displayName"),
-          avatarUrl: formData.get("avatarUrl"),
-          hasAvatarFile: formData.has("avatarFile"),
-          avatarFile: formData.get("avatarFile"),
-        });
-      }}
     >
       {state.ok ? (
         <p className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">

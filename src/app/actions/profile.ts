@@ -70,15 +70,6 @@ export async function updateDisplayNameAction(
     // Handle file upload
     const avatarFile = formData.get("avatarFile") as File | null;
 
-    // Debug: log file info
-    console.log("[PROFILE UPDATE] File received:", {
-      exists: !!avatarFile,
-      isFile: avatarFile instanceof File,
-      size: avatarFile?.size ?? 0,
-      name: avatarFile?.name ?? "none",
-      type: avatarFile?.type ?? "none",
-    });
-
     // Check if file is actually a File object and has content
     // In Next.js Server Actions, empty file inputs return File with size 0
     if (avatarFile && avatarFile instanceof File && avatarFile.size > 0) {
@@ -123,11 +114,11 @@ export async function updateDisplayNameAction(
             }
           } catch (error) {
             // Ignore errors when deleting old file
-            console.error("Failed to delete old avatar:", error);
+            console.error("[PROFILE] Failed to delete old avatar file:", error instanceof Error ? error.message : String(error));
           }
         }
       } catch (error) {
-        console.error("Failed to save avatar file:", error);
+        console.error("[PROFILE] Failed to save avatar file:", error instanceof Error ? error.message : String(error));
         return {
           ok: false,
           formError: tExtra("errors.uploadFailed"),
@@ -154,11 +145,6 @@ export async function updateDisplayNameAction(
 
     // Get displayName from form
     const displayNameInput = String(formData.get("displayName") ?? "").trim();
-    console.log("[PROFILE UPDATE] DisplayName:", {
-      input: displayNameInput,
-      length: displayNameInput.length,
-      hasField: formData.has("displayName"),
-    });
 
     const schema = z.object({
       displayName: z.string().trim().max(50).optional(),
@@ -169,7 +155,6 @@ export async function updateDisplayNameAction(
     });
 
     if (!parsed.success) {
-      console.log("[PROFILE UPDATE] Validation failed:", parsed.error.flatten().fieldErrors);
       return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
     }
 
@@ -182,7 +167,7 @@ export async function updateDisplayNameAction(
         }
       } catch (error) {
         // Ignore errors when deleting old file
-        console.error("Failed to delete old avatar:", error);
+        console.error("[PROFILE] Failed to delete old avatar file:", error instanceof Error ? error.message : String(error));
       }
     }
 
@@ -203,16 +188,8 @@ export async function updateDisplayNameAction(
       updateData.avatarUrl = finalAvatarUrl;
     }
 
-    console.log("[PROFILE UPDATE] Final state:", {
-      finalAvatarUrl,
-      displayNameInput,
-      updateData,
-      updateDataKeys: Object.keys(updateData),
-    });
-
     // If nothing to update, return current data (no error, just no changes)
     if (Object.keys(updateData).length === 0) {
-      console.log("[PROFILE UPDATE] No updates needed - returning current data");
       const currentUserData = await prisma.user.findUnique({
         where: { id: userId },
         select: {
@@ -228,7 +205,6 @@ export async function updateDisplayNameAction(
     }
 
     // Update user in database
-    console.log("[PROFILE UPDATE] Updating user with data:", updateData);
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: updateData as { displayName?: string; avatarUrl?: string | null },
@@ -237,7 +213,6 @@ export async function updateDisplayNameAction(
         avatarUrl: true,
       },
     });
-    console.log("[PROFILE UPDATE] User updated successfully:", updatedUser);
 
     // Prepare response first - ensure it's serializable
     const response: UpdateDisplayNameState = {
@@ -246,8 +221,6 @@ export async function updateDisplayNameAction(
       avatarUrl: updatedUser.avatarUrl ?? null,
     };
 
-    console.log("[PROFILE UPDATE] Returning response:", JSON.stringify(response));
-
     // Revalidate paths AFTER preparing response but before returning
     // This ensures response is ready before any potential side effects
     try {
@@ -255,14 +228,13 @@ export async function updateDisplayNameAction(
       revalidatePath(`/${locale}`);
       revalidatePath(`/${locale}/`, "layout");
     } catch (revalidateError) {
-      console.error("[PROFILE UPDATE] Error during revalidatePath:", revalidateError);
+      console.error("[PROFILE] Error during revalidatePath:", revalidateError instanceof Error ? revalidateError.message : String(revalidateError));
       // Don't fail the update if revalidation fails
     }
 
     return response;
   } catch (error) {
-    console.error("[PROFILE UPDATE] Error in updateDisplayNameAction:", error);
-    console.error("[PROFILE UPDATE] Error stack:", error instanceof Error ? error.stack : "No stack");
+    console.error("[PROFILE UPDATE] Failed to update profile:", error instanceof Error ? error.message : String(error));
     const locale = await getLocale();
     const tExtra = await getTranslations({ locale, namespace: "ProfileExtra" });
     return {

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Todo" ALTER COLUMN "dueDate" DROP DEFAULT,
+ALTER COLUMN "priority" DROP DEFAULT;

@@ -1,82 +1,423 @@
-# Next.js Todo List (App Router) + NextAuth v5 (Credentials) + Prisma (PostgreSQL)
+# Todo App - Приложение для управления задачами
 
-## Features
+## Обзор проекта
 
-- Next.js App Router + TypeScript
-- Tailwind CSS
-- Auth (NextAuth v5 Credentials): registration + login (email/password)
-- Password hashing with `bcryptjs`
-- JWT sessions
-- PostgreSQL persistence via Prisma
-- Per-user todos (CRUD): add, toggle complete, edit text, delete
-- Protected `/` route (redirects to `/auth/login`)
+Это веб-приложение для управления личными задачами (todo list). Пользователи могут создавать задачи, устанавливать сроки выполнения, выбирать приоритет и отслеживать свой прогресс.
 
-## Setup (Docker Postgres)
+### Что решает этот проект?
 
-### 1) Start PostgreSQL
+Проект демонстрирует создание полноценного веб-приложения с:
+- Аутентификацией пользователей
+- Хранением данных в базе данных
+- Современным пользовательским интерфейсом
+- Безопасной обработкой паролей
+
+### Для кого этот проект?
+
+- Студентов, изучающих веб-разработку
+- Начинающих разработчиков
+- Всех, кто хочет понять, как работают современные веб-приложения
+
+## Основные возможности
+
+- **Управление задачами**: создание, редактирование, удаление задач
+- **Приоритеты задач**: три уровня важности (Важная, Средняя, Легкая)
+- **Сроки выполнения**: установка даты выполнения для каждой задачи
+- **Аутентификация**: регистрация и вход в систему
+- **Восстановление пароля**: безопасное восстановление забытого пароля
+- **Профиль пользователя**: редактирование имени и аватара
+- **Многоязычность**: поддержка русского и английского языков
+
+## Используемые технологии
+
+### Frontend (интерфейс пользователя)
+
+- **Next.js 16** - фреймворк для создания веб-приложений на React
+- **React 19** - библиотека для создания пользовательских интерфейсов
+- **TypeScript** - язык программирования с проверкой типов
+- **Tailwind CSS** - фреймворк для стилизации интерфейса
+- **next-intl** - библиотека для поддержки нескольких языков
+
+### Backend (серверная часть)
+
+- **Next.js Server Actions** - функции, выполняющиеся на сервере
+- **NextAuth** - система аутентификации
+- **Prisma** - инструмент для работы с базой данных
+- **PostgreSQL** - реляционная база данных
+- **bcryptjs** - библиотека для безопасного хранения паролей
+- **Zod** - библиотека для проверки данных
+
+## Как запустить проект
+
+### Вариант A: С Docker (рекомендуется для начинающих)
+
+Docker позволяет запустить базу данных PostgreSQL без необходимости устанавливать её на компьютер.
+
+#### Шаг 1: Установка Docker Desktop
+
+1. Скачайте Docker Desktop с официального сайта: https://www.docker.com/products/docker-desktop
+2. Установите Docker Desktop
+3. Запустите Docker Desktop и дождитесь полной загрузки
+
+#### Шаг 2: Клонирование проекта
+
+Если проект еще не скачан, склонируйте репозиторий или распакуйте архив.
+
+#### Шаг 3: Запуск базы данных PostgreSQL
+
+Откройте терминал в папке проекта и выполните:
 
 ```bash
 docker-compose up -d
 ```
 
-### 2) Install dependencies
+Эта команда:
+- Скачает образ PostgreSQL (если его еще нет)
+- Создаст контейнер с базой данных
+- Запустит PostgreSQL на порту 5432
+
+Проверить, что база данных запущена:
+```bash
+docker ps
+```
+
+Вы должны увидеть контейнер `todo_app_postgres`.
+
+#### Шаг 4: Установка зависимостей
 
 ```bash
 npm install
 ```
 
-### 3) Configure environment variables
+Эта команда установит все необходимые библиотеки проекта.
 
-Copy the example env file:
+#### Шаг 5: Настройка переменных окружения
 
-```bash
-# Windows PowerShell
+Создайте файл `.env` в корне проекта. Скопируйте содержимое из `.env.example`:
+
+**Windows (PowerShell):**
+```powershell
 Copy-Item .env.example .env
 ```
 
-Generate `NEXTAUTH_SECRET`:
+**Windows (CMD):**
+```cmd
+copy .env.example .env
+```
 
+**Linux/Mac:**
+```bash
+cp .env.example .env
+```
+
+Откройте файл `.env` и заполните значения:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo_db?schema=public"
+NEXTAUTH_SECRET="ваш-секретный-ключ-здесь"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+**Генерация NEXTAUTH_SECRET:**
+
+Выполните в терминале:
 ```bash
 npx auth secret
 ```
 
-Then paste it into `.env`.
+Скопируйте сгенерированный ключ и вставьте в файл `.env` вместо `ваш-секретный-ключ-здесь`.
 
-### 4) Create DB tables (Prisma migrations)
+#### Шаг 6: Создание таблиц в базе данных
 
 ```bash
-npx prisma migrate dev
+npm run prisma:migrate
 ```
 
-### 5) Run the dev server
+Эта команда создаст все необходимые таблицы в базе данных.
+
+#### Шаг 7: Генерация Prisma Client
+
+```bash
+npm run prisma:generate
+```
+
+Эта команда создаст TypeScript типы для работы с базой данных.
+
+#### Шаг 8: Запуск приложения
 
 ```bash
 npm run dev
 ```
 
-Visit:
-- `http://localhost:3000/auth/register`
-- `http://localhost:3000/auth/login`
-- `http://localhost:3000/` (protected)
+Приложение будет доступно по адресу: http://localhost:3000
 
-## Setup (without Docker)
+### Вариант B: Без Docker (локальная установка PostgreSQL)
 
-If you already have PostgreSQL running locally, update `DATABASE_URL` in `.env` accordingly, then run:
+Если вы не можете или не хотите использовать Docker, установите PostgreSQL локально.
+
+#### Шаг 1: Установка PostgreSQL
+
+**Windows:**
+1. Скачайте PostgreSQL с официального сайта: https://www.postgresql.org/download/windows/
+2. Запустите установщик
+3. Во время установки запомните пароль для пользователя `postgres`
+4. Завершите установку
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+```
+
+**macOS:**
+```bash
+brew install postgresql
+brew services start postgresql
+```
+
+#### Шаг 2: Создание базы данных
+
+Откройте терминал и подключитесь к PostgreSQL:
+
+**Windows:**
+Откройте "SQL Shell (psql)" из меню Пуск или используйте командную строку:
+```bash
+psql -U postgres
+```
+
+**Linux/Mac:**
+```bash
+sudo -u postgres psql
+```
+
+В консоли PostgreSQL выполните:
+
+```sql
+CREATE DATABASE todo_db;
+\q
+```
+
+#### Шаг 3: Установка зависимостей проекта
 
 ```bash
 npm install
-npx prisma migrate dev
+```
+
+#### Шаг 4: Настройка переменных окружения
+
+Создайте файл `.env` в корне проекта:
+
+```env
+DATABASE_URL="postgresql://postgres:ВАШ_ПАРОЛЬ@localhost:5432/todo_db?schema=public"
+NEXTAUTH_SECRET="ваш-секретный-ключ"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+**Важно:**
+- Замените `ВАШ_ПАРОЛЬ` на пароль, который вы установили при установке PostgreSQL
+- Если в пароле есть специальные символы (@, #, $, &), закодируйте их:
+  - @ → %40
+  - # → %23
+  - $ → %24
+  - & → %26
+
+**Генерация NEXTAUTH_SECRET:**
+```bash
+npx auth secret
+```
+
+#### Шаг 5: Создание таблиц в базе данных
+
+```bash
+npm run prisma:migrate
+```
+
+#### Шаг 6: Генерация Prisma Client
+
+```bash
+npm run prisma:generate
+```
+
+#### Шаг 7: Запуск приложения
+
+```bash
 npm run dev
 ```
 
-## Project structure
+Приложение будет доступно по адресу: http://localhost:3000
 
-- `src/app/` вЂ“ routes, layouts, server actions
-- `src/components/` вЂ“ reusable UI components
-- `src/lib/` вЂ“ Prisma client + auth utilities
-- `prisma/` вЂ“ Prisma schema (migrations generated by `prisma migrate dev`)
+## Переменные окружения
 
-## Notes
+Файл `.env` содержит настройки приложения. Никогда не коммитьте этот файл в Git!
 
-- Auth config lives in `src/lib/auth.ts` and is exposed via `src/app/api/auth/[...nextauth]/route.ts`.
-- Todo mutations use Server Actions (`src/app/actions/todos.ts`).
+### DATABASE_URL
+
+Строка подключения к базе данных PostgreSQL.
+
+Формат: `postgresql://пользователь:пароль@хост:порт/имя_базы?schema=public`
+
+**Примеры:**
+
+С Docker:
+```
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo_db?schema=public"
+```
+
+С локальным PostgreSQL:
+```
+DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/todo_db?schema=public"
+```
+
+### NEXTAUTH_SECRET
+
+Секретный ключ для шифрования сессий. Должен быть случайной строкой минимум 32 символа.
+
+**Генерация:**
+```bash
+npx auth secret
+```
+
+### NEXTAUTH_URL
+
+URL вашего приложения.
+
+Для разработки:
+```
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+Для production:
+```
+NEXTAUTH_URL="https://ваш-домен.com"
+```
+
+## Структура проекта
+
+```
+todo-app/
+├── src/
+│   ├── app/                    # Маршруты и страницы
+│   │   ├── [locale]/          # Страницы с поддержкой языков
+│   │   │   ├── auth/          # Страницы аутентификации
+│   │   │   ├── profile/       # Страницы профиля
+│   │   │   └── page.tsx        # Главная страница
+│   │   ├── actions/           # Server Actions (серверная логика)
+│   │   │   ├── auth.ts        # Действия для аутентификации
+│   │   │   ├── todos.ts       # Действия для работы с задачами
+│   │   │   └── profile.ts     # Действия для профиля
+│   │   └── api/               # API маршруты
+│   │       └── auth/          # NextAuth API
+│   ├── components/            # React компоненты
+│   │   ├── TodoApp.tsx        # Главный компонент списка задач
+│   │   ├── LoginForm.tsx      # Форма входа
+│   │   ├── RegisterForm.tsx    # Форма регистрации
+│   │   └── ...
+│   ├── lib/                   # Утилиты и библиотеки
+│   │   ├── auth.ts            # Конфигурация NextAuth
+│   │   ├── prisma.ts          # Клиент Prisma
+│   │   └── password.ts        # Функции для работы с паролями
+│   ├── i18n/                  # Настройки интернационализации
+│   └── middleware.ts          # Middleware для защиты маршрутов
+├── prisma/
+│   ├── schema.prisma          # Схема базы данных
+│   └── migrations/            # Миграции базы данных
+├── messages/                  # Файлы переводов
+│   ├── en.json                # Английский язык
+│   └── ru.json                # Русский язык
+├── public/                    # Статические файлы
+├── docker-compose.yml         # Конфигурация Docker
+├── package.json               # Зависимости проекта
+└── .env                       # Переменные окружения (не в Git!)
+```
+
+## Типичные проблемы и решения
+
+### Проблема: База данных не подключается
+
+**Решение:**
+1. Проверьте, что PostgreSQL запущен:
+   - С Docker: `docker ps` (должен быть контейнер `todo_app_postgres`)
+   - Без Docker: проверьте службу PostgreSQL в системе
+2. Проверьте правильность DATABASE_URL в файле `.env`
+3. Убедитесь, что порт 5432 не занят другим приложением
+
+### Проблема: Ошибка "Prisma Client не найден"
+
+**Решение:**
+Выполните:
+```bash
+npm run prisma:generate
+```
+
+### Проблема: Ошибка "Unauthorized" при создании задачи
+
+**Решение:**
+1. Убедитесь, что вы вошли в систему
+2. Проверьте, что NEXTAUTH_SECRET установлен в `.env`
+3. Перезапустите сервер разработки
+
+### Проблема: Docker не запускается
+
+**Решение:**
+1. Убедитесь, что Docker Desktop запущен
+2. Попробуйте использовать вариант B (без Docker)
+3. Проверьте системные требования Docker Desktop
+
+### Проблема: Порт 3000 уже занят
+
+**Решение:**
+Измените порт в команде запуска:
+```bash
+npm run dev -- -p 3001
+```
+
+Или остановите приложение, использующее порт 3000.
+
+## Полезные команды
+
+```bash
+# Запуск сервера разработки
+npm run dev
+
+# Сборка для production
+npm run build
+
+# Запуск production версии
+npm start
+
+# Создание миграций базы данных
+npm run prisma:migrate
+
+# Генерация Prisma Client
+npm run prisma:generate
+
+# Открытие Prisma Studio (визуальный редактор БД)
+npm run prisma:studio
+
+# Проверка кода линтером
+npm run lint
+```
+
+## Дополнительная документация
+
+- [FRONTEND_BACKEND_EXPLANATION.md](./FRONTEND_BACKEND_EXPLANATION.md) - Объяснение архитектуры frontend и backend
+- [REACTIVE_UPDATES_EXPLANATION.md](./REACTIVE_UPDATES_EXPLANATION.md) - Как работают реактивные обновления
+- [TECHNOLOGY_JUSTIFICATION.md](./TECHNOLOGY_JUSTIFICATION.md) - Обоснование выбора технологий
+- [TECHNICAL_DETAILS.md](./TECHNICAL_DETAILS.md) - Технические детали реализации
+- [USEFUL_LINKS.md](./USEFUL_LINKS.md) - Полезные ссылки и ресурсы
+
+## Первые шаги после запуска
+
+1. Откройте http://localhost:3000
+2. Зарегистрируйте новый аккаунт
+3. Войдите в систему
+4. Создайте свою первую задачу
+5. Попробуйте отредактировать задачу
+6. Установите приоритет и срок выполнения
+
+## Поддержка
+
+Если возникли проблемы:
+1. Проверьте раздел "Типичные проблемы и решения"
+2. Посмотрите логи в терминале
+3. Убедитесь, что все шаги установки выполнены правильно

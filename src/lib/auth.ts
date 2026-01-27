@@ -55,19 +55,8 @@ export const {
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      // Debug: log all JWT callback calls
-      console.log("[AUTH] JWT callback called:", {
-        hasUser: !!user,
-        hasToken: !!token,
-        trigger,
-        tokenSub: token.sub,
-        hasSession: !!session,
-        sessionData: session,
-      });
-
       // Initial sign in - set token from user object
       if (user) {
-        console.log("[AUTH] Initial sign in, setting token from user:", user);
         token.sub = user.id;
         token.email = user.email ?? null;
         token.username = user.username ?? null;
@@ -80,22 +69,16 @@ export const {
       // In NextAuth beta, trigger === "update" when update() is called
       // session parameter contains data passed to update()
       if (trigger === "update" && token.sub) {
-        console.log("[AUTH] JWT callback triggered with update");
-        console.log("[AUTH] Session parameter received:", session);
-
         // If session data is provided, use it directly
         if (session?.user) {
-          console.log("[AUTH] Updating token from session parameter:", session.user);
           if (session.user.displayName !== undefined) {
             token.displayName = session.user.displayName;
           }
           if (session.user.avatarUrl !== undefined) {
             token.avatarUrl = session.user.avatarUrl;
           }
-          console.log("[AUTH] Token updated from session parameter");
         } else {
           // If no session data provided, fetch fresh data from database
-          console.log("[AUTH] No session data provided, fetching fresh data from DB...");
           try {
             const dbUser = await prisma.user.findUnique({
               where: { id: token.sub },
@@ -108,18 +91,14 @@ export const {
             });
 
             if (dbUser) {
-              console.log("[AUTH] Fresh user data from DB:", dbUser);
               token.email = dbUser.email;
               token.username = dbUser.username;
               token.displayName = dbUser.displayName;
               token.avatarUrl = dbUser.avatarUrl;
-              console.log("[AUTH] Token updated with fresh data from DB");
-            } else {
-              console.log("[AUTH] User not found in DB for id:", token.sub);
             }
           } catch (error) {
             // If DB query fails, keep existing token data
-            console.error("[AUTH] Failed to fetch user data for JWT:", error);
+            console.error("[AUTH] Failed to fetch user data for JWT:", error instanceof Error ? error.message : String(error));
           }
         }
       }

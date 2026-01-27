@@ -4,7 +4,8 @@
       "title": "Вход",
       "subtitle": "С возвращением.",
       "noAccount": "Впервые здесь?",
-      "createAccount": "Создать аккаунт"
+      "createAccount": "Создать аккаунт",
+      "forgotPassword": "Забыли пароль?"
     },
     "register": {
       "title": "Создать аккаунт",
@@ -22,6 +23,7 @@
     },
     "loginForm": {
       "registeredSuccess": "Аккаунт создан. Пожалуйста, войдите.",
+      "passwordResetSuccess": "Пароль успешно изменён. Пожалуйста, войдите с новым паролем.",
       "invalidCredentials": "Неверный email или пароль.",
       "submitting": "Входим...",
       "submit": "Войти"
@@ -37,6 +39,28 @@
       "displayNameRequired": "Отображаемое имя обязательно",
       "passwordMin": "Пароль должен быть не короче 6 символов",
       "passwordsNoMatch": "Пароли не совпадают"
+    },
+    "forgotPassword": {
+      "title": "Восстановление пароля",
+      "subtitle": "Введите имя пользователя или email для восстановления пароля.",
+      "rememberPassword": "Вспомнили пароль?",
+      "backToLogin": "Вернуться к входу",
+      "fields": {
+        "identifier": "Имя пользователя или Email",
+        "identifierPlaceholder": "Введите имя пользователя или email",
+        "newPassword": "Новый пароль",
+        "confirmNewPassword": "Подтвердите новый пароль"
+      },
+      "form": {
+        "submitFind": "Найти аккаунт",
+        "submitReset": "Изменить пароль"
+      },
+      "errors": {
+        "identifierRequired": "Имя пользователя или email обязательно",
+        "userNotFound": "Пользователь не найден. Проверьте введённые данные.",
+        "passwordMin": "Пароль должен быть не короче 6 символов",
+        "passwordsNoMatch": "Пароли не совпадают"
+      }
     }
   },
   "Todos": {
@@ -55,6 +79,17 @@
     "delete": "Удалить",
     "save": "Сохранить",
     "cancel": "Отмена",
+    "fields": {
+      "dueDate": "Срок выполнения",
+      "priority": "Приоритет",
+      "text": "Текст задачи"
+    },
+    "priorities": {
+      "IMPORTANT": "Важная задача",
+      "MEDIUM": "Средняя задача",
+      "EASY": "Легкая задача"
+    },
+    "dueDate": "Срок: {date}",
     "statistics": {
       "active": "Активные задачи",
       "completed": "Выполненные задачи",
@@ -62,7 +97,14 @@
     },
     "errors": {
       "updateFailed": "Не удалось обновить задачу.",
-      "deleteFailed": "Не удалось удалить задачу."
+      "deleteFailed": "Не удалось удалить задачу.",
+      "createFailed": "Не удалось создать задачу. Пожалуйста, попробуйте снова.",
+      "textRequired": "Текст задачи обязателен",
+      "textMaxLength": "Задача должна быть не длиннее 200 символов",
+      "invalidDateFormat": "Неверный формат даты",
+      "dueDateRequired": "Срок выполнения обязателен",
+      "dueDatePast": "Срок выполнения не может быть в прошлом",
+      "priorityInvalid": "Неверное значение приоритета"
     }
   },
   "Nav": {

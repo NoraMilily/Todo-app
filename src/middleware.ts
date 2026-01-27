@@ -1,4 +1,4 @@
-﻿import createMiddleware from "next-intl/middleware";
+import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { auth } from "@/lib/auth";
@@ -9,7 +9,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale,
 });
 
-const publicPages = ["/auth/login", "/auth/register"];
+const publicPages = ["/auth/login", "/auth/register", "/auth/forgot-password"];
 
 function stripLocale(pathname: string) {
   return pathname.replace(new RegExp(`^/(${locales.join("|")})(?=/|$)`), "") || "/";

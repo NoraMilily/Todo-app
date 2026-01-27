@@ -4,7 +4,8 @@
       "title": "Sign in",
       "subtitle": "Welcome back.",
       "noAccount": "New here?",
-      "createAccount": "Create an account"
+      "createAccount": "Create an account",
+      "forgotPassword": "Forgot password?"
     },
     "register": {
       "title": "Create an account",
@@ -22,6 +23,7 @@
     },
     "loginForm": {
       "registeredSuccess": "Account created. Please log in.",
+      "passwordResetSuccess": "Password reset successfully. Please log in with your new password.",
       "invalidCredentials": "Invalid email or password.",
       "submitting": "Signing in...",
       "submit": "Sign in"
@@ -37,6 +39,28 @@
       "displayNameRequired": "Display name is required",
       "passwordMin": "Password must be at least 6 characters",
       "passwordsNoMatch": "Passwords do not match"
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your username or email to reset your password.",
+      "rememberPassword": "Remember your password?",
+      "backToLogin": "Back to login",
+      "fields": {
+        "identifier": "Username or Email",
+        "identifierPlaceholder": "Enter your username or email",
+        "newPassword": "New Password",
+        "confirmNewPassword": "Confirm New Password"
+      },
+      "form": {
+        "submitFind": "Find Account",
+        "submitReset": "Reset Password"
+      },
+      "errors": {
+        "identifierRequired": "Username or email is required",
+        "userNotFound": "User not found. Please check your input.",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordsNoMatch": "Passwords do not match"
+      }
     }
   },
   "Todos": {
@@ -55,6 +79,17 @@
     "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel",
+    "fields": {
+      "dueDate": "Due Date",
+      "priority": "Priority",
+      "text": "Task text"
+    },
+    "priorities": {
+      "IMPORTANT": "Important Task",
+      "MEDIUM": "Medium Task",
+      "EASY": "Easy Task"
+    },
+    "dueDate": "Due: {date}",
     "statistics": {
       "active": "Active tasks",
       "completed": "Completed tasks",
@@ -62,7 +97,14 @@
     },
     "errors": {
       "updateFailed": "Failed to update todo.",
-      "deleteFailed": "Failed to delete todo."
+      "deleteFailed": "Failed to delete todo.",
+      "createFailed": "Failed to create todo. Please try again.",
+      "textRequired": "Todo text is required",
+      "textMaxLength": "Todo must be 200 characters or less",
+      "invalidDateFormat": "Invalid date format",
+      "dueDateRequired": "Due date is required",
+      "dueDatePast": "Due date cannot be in the past",
+      "priorityInvalid": "Invalid priority value"
     }
   },
   "Nav": {

@@ -15,6 +15,15 @@ export default async function LoginPage() {
           <LoginForm />
         </div>
 
+        <p className="mt-4 text-center text-sm text-zinc-600">
+          <Link
+            className="font-medium text-zinc-900 underline"
+            href="/auth/forgot-password"
+          >
+            {t("login.forgotPassword")}
+          </Link>
+        </p>
+
         <p className="mt-4 text-sm text-zinc-600">
           {t("login.noAccount")}{" "}
           <Link className="font-medium text-zinc-900 underline" href="/auth/register">
